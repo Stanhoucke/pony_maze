@@ -1,6 +1,15 @@
-import React from 'react';
+import { React, useState } from 'react';
 
-const NewGame = () => {
+const NewGame = ({getMaze}) => {
+
+    const [gameInfo, setGameInfo] = useState(
+        {
+            "maze-width": 15,
+            "maze-height": 15,
+            "maze-player-name": "Spike",
+            "difficulty": 0
+        }
+    );
 
     return (
         <>
