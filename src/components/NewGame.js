@@ -11,9 +11,17 @@ const NewGame = ({getMaze}) => {
         }
     );
 
+    const handleNewGame = (event) => {
+        event.preventDefault();
+        getMaze(gameInfo);
+    }
+
     return (
         <>
             <h3>NewGame</h3>
+            <form onSubmit={handleNewGame}>
+                <button type="submit">New Game</button>
+            </form>
         </>
     )
 }

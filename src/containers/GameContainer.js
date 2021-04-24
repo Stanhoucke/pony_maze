@@ -6,18 +6,18 @@ import EndGame from '../components/EndGame';
 
 const GameContainer = () => {
 
-    const [maze, setMaze] = useState({});
+    const [mazeId, setMazeId] = useState({});
     const [loaded, setLoaded] = useState(false);
 
-    const url = "https://ponychallenge.trustpilot.com/pony-challenge/maze/"
+    const url = "https://ponychallenge.trustpilot.com/pony-challenge/maze"
 
     const getMaze = (gameInfo) => {
         console.log("getting maze id...")
 
         const request = new Request();
 
-        request.get(url, gameInfo)
-        .then(data => setMaze(data))
+        request.post(url, gameInfo)
+        .then(data => setMazeId(data.maze_id))
         .then(() => setLoaded(true))
     }
 
