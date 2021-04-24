@@ -1,6 +1,6 @@
 import { React, useState } from 'react';
 
-const NewGame = ({getMaze}) => {
+const NewGame = ({getMazeId}) => {
 
     const [gameInfo, setGameInfo] = useState(
         {
@@ -13,7 +13,7 @@ const NewGame = ({getMaze}) => {
 
     const handleNewGame = (event) => {
         event.preventDefault();
-        getMaze(gameInfo);
+        getMazeId(gameInfo);
 
         setGameInfo(
             {
