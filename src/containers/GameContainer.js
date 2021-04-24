@@ -59,6 +59,7 @@ const GameContainer = () => {
                 domokunPosition = {domokunPosition}
                 endPointPosition = {endPointPosition}
                 walls = {walls}
+                loaded = {loaded}
             />
             <EndGame/>
         </>
