@@ -53,7 +53,13 @@ const GameContainer = () => {
             <h3>GameContainer</h3>
             Maze ID: {mazeId}
             <NewGame getMazeId = {getMazeId}/>
-            <Maze/>
+            <Maze
+                mazeState = {mazeState}
+                ponyPosition = {ponyPosition}
+                domokunPosition = {domokunPosition}
+                endPointPosition = {endPointPosition}
+                walls = {walls}
+            />
             <EndGame/>
         </>
     )
