@@ -1,8 +1,4 @@
 const addMazeBorder = (index, height, width, border) => {
-
-    // SE corner
-    // Modulo width is 0 and Index is greater than height x width - width
-        // Push east and south to border
     if ((index + 1) % width === 0 && index >= (height * width) - width) {
         border.push("east")
         border.push("south")
@@ -11,15 +7,16 @@ const addMazeBorder = (index, height, width, border) => {
     } else if (index >= (height * width) - width) {
         border.push("south")
     }
-
-    // East border
-    // Modulo width is 0
-        // Push east to border
-
-    // South border
-    // Index is greater than height x width - width
-        // Push south to border
-
 }
 
-export {addMazeBorder};
+const updateAllBorders = (walls, width, height) => {
+    walls.forEach((wall, index) => {
+        addMazeBorder(index, height, width, wall);
+    });
+    return walls;
+}
+
+export {
+    addMazeBorder,
+    updateAllBorders
+};
