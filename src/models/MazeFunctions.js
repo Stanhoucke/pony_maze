@@ -6,6 +6,10 @@ const addMazeBorder = (index, height, width, border) => {
     if ((index + 1) % width === 0 && index >= (height * width) - width) {
         border.push("east")
         border.push("south")
+    } else if ((index + 1) % width === 0) {
+        border.push("east")
+    } else if (index >= (height * width) - width) {
+        border.push("south")
     }
 
     // East border
