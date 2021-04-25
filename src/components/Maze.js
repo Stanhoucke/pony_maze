@@ -23,13 +23,29 @@ div {
 
 const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls, loaded}) => {
 
-    if (!loaded) {
-        return (
-            <h1>Click new game</h1>
-        )
-        
-    } else {
         // Create maze space component to style divs (iterate through borders)
+        // or create function to return classNames <- could resolve border cases too
+
+        const addMazeBorder = (index, height, width, border) => {
+
+            // SE corner
+            // Modulo width is 0 and Index is greater than height x width - width
+                // Push east and south to border
+            if ((index + 1) % width === 0 && index >= (height * width) - width) {
+                border.push("east")
+                border.push("south")
+            }
+
+            // East border
+            // Modulo width is 0
+                // Push east to border
+
+            // South border
+            // Index is greater than height x width - width
+                // Push south to border
+
+        }
+
         const mazeCells = walls.map((borders, index) => {
             if (index === ponyPosition) {
                 return (
@@ -55,6 +71,13 @@ const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls
                 )
             }
         });
+
+    if (!loaded) {
+        return (
+            <h1>Click new game</h1>
+        )
+        
+    } else {
     
         return (
             <>
