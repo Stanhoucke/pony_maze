@@ -13,7 +13,7 @@ const GameContainer = () => {
     const [domokunPosition, setDomokunPosition] = useState(null);
     const [endPointPosition, setEndPointPosition] = useState(null);
     const [walls, setWalls] = useState(null);
-    const [lastMove, setLastMove] = useState(null);
+    const [gameState, setGameState] = useState({state: "Inactive"});
     const [loaded, setLoaded] = useState(false);
 
     const initialRender = useRef(true);
@@ -48,6 +48,7 @@ const GameContainer = () => {
             setDomokunPosition(data.domokun[0])
             setEndPointPosition(data["end-point"][0])
             setWalls(updateAllWalls(data.data, data.size[0], data.size[1]))
+            setGameState(data["game-state"])
         })
         .then(() => setLoaded(true))
     }
@@ -60,25 +61,31 @@ const GameContainer = () => {
         }
 
         request.post(url + '/' + mazeId, move)
-        .then(data => setLastMove(data))
+        .then(data => setGameState(data))
         .then(() => getMazeState())
     }
 
+    let content;
+    {if (gameState.state === "Inactive") {
+        content = <NewGame getMazeId = {getMazeId}/>
+    } else if (gameState.state.toLowerCase() === "active") {
+        content = <Maze
+            mazeState = {mazeState}
+            ponyPosition = {ponyPosition}
+            domokunPosition = {domokunPosition}
+            endPointPosition = {endPointPosition}
+            walls = {walls}
+            movePony = {movePony}
+            loaded = {loaded}
+        />
+    } else {
+        content = <EndGame gameState = {gameState} setGameState = {setGameState}/>
+    }}
     return (
         <>
             <h3>GameContainer</h3>
             Maze ID: {mazeId}
-            <NewGame getMazeId = {getMazeId}/>
-            <Maze
-                mazeState = {mazeState}
-                ponyPosition = {ponyPosition}
-                domokunPosition = {domokunPosition}
-                endPointPosition = {endPointPosition}
-                walls = {walls}
-                movePony = {movePony}
-                loaded = {loaded}
-            />
-            <EndGame/>
+            {content}
         </>
     )
 }
