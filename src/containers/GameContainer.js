@@ -13,6 +13,7 @@ const GameContainer = () => {
     const [domokunPosition, setDomokunPosition] = useState(null);
     const [endPointPosition, setEndPointPosition] = useState(null);
     const [walls, setWalls] = useState(null);
+    const [lastMove, setLastMove] = useState(null);
     const [loaded, setLoaded] = useState(false);
 
     const initialRender = useRef(true);
@@ -51,6 +52,18 @@ const GameContainer = () => {
         .then(() => setLoaded(true))
     }
 
+    const movePony = (direction) => {
+        console.log("moving pony...")
+
+        const move = {
+            "direction": direction
+        }
+
+        request.post(url + '/' + mazeId, move)
+        .then(data => setLastMove(data))
+        .then(() => getMazeState())
+    }
+
     return (
         <>
             <h3>GameContainer</h3>
@@ -62,6 +75,7 @@ const GameContainer = () => {
                 domokunPosition = {domokunPosition}
                 endPointPosition = {endPointPosition}
                 walls = {walls}
+                movePony = {movePony}
                 loaded = {loaded}
             />
             <EndGame/>

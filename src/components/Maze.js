@@ -7,7 +7,6 @@ width: 33%;
 display: grid;
 grid-template-columns: repeat(${({ height }) => height}, 1fr);
 grid-template-rows: repeat(${({ width }) => width}, 1fr);
-border: solid;
 
 div {
     height: 3em;
@@ -20,9 +19,15 @@ div {
 .west {
     border-left: dashed;
 }
+.south {
+    border-bottom: dashed;
+}
+.east {
+    border-right: dashed;
+}
 `;
 
-const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls, loaded}) => {
+const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls, movePony, loaded}) => {
     if (!loaded) {
         return (
             <h1>Click new game</h1>
@@ -64,12 +69,18 @@ const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls
                     <li>Exit: {endPointPosition}</li>
                     {/* <li>Size: {mazeState.size[0]} x {mazeState.size[1]}</li> */}
                 </ul>
+
                 <MazeWalls
                 width={mazeState.size[0]}
                 height={mazeState.size[1]}
                 >
                     {mazeCells}
                 </MazeWalls>
+
+                <button onClick={() => movePony("north")}>Up</button>
+                <button onClick={() => movePony("east")}>Right</button>
+                <button onClick={() => movePony("west")}>Left</button>
+                <button onClick={() => movePony("south")}>Down</button>
             </>
         )
         
