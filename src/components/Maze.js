@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import {getWallClasses} from '../models/MazeFunctions';
 
 const MazeWalls = styled.div`
 width: 33%;
@@ -31,25 +32,25 @@ const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls
         const mazeCells = walls.map((borders, index) => {
             if (index === ponyPosition) {
                 return (
-                    <div key={index} className={borders}>
+                    <div key={index} className={getWallClasses(borders)}>
                         <p>P</p>
                     </div>
                 )
             } else if (index === domokunPosition) {
                 return (
-                    <div key={index} className={borders}>
+                    <div key={index} className={getWallClasses(borders)}>
                         <p>D</p>
                     </div>
                 )
             } else if (index === endPointPosition) {
                 return (
-                    <div key={index} className={borders}>
+                    <div key={index} className={getWallClasses(borders)}>
                         <p>E</p>
                     </div>
                 )
             } else {
                 return (
-                    <div key={index} className={borders}></div>
+                    <div key={index} className={getWallClasses(borders)}></div>
                 )
             }
         });

@@ -1,6 +1,6 @@
 import { React, useEffect, useRef, useState } from 'react';
 import Request from '../helpers/Request';
-import {updateAllBorders} from '../models/MazeFunctions';
+import {updateAllWalls} from '../models/MazeFunctions';
 import NewGame from '../components/NewGame';
 import Maze from '../components/Maze';
 import EndGame from '../components/EndGame';
@@ -46,7 +46,7 @@ const GameContainer = () => {
             setPonyPosition(data.pony[0])
             setDomokunPosition(data.domokun[0])
             setEndPointPosition(data["end-point"][0])
-            setWalls(updateAllBorders(data.data, data.size[0], data.size[1]))
+            setWalls(updateAllWalls(data.data, data.size[0], data.size[1]))
         })
         .then(() => setLoaded(true))
     }

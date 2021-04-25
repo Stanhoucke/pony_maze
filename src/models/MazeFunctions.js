@@ -1,22 +1,31 @@
-const addMazeBorder = (index, height, width, border) => {
+const addMazeWall = (index, height, width, wall) => {
     if ((index + 1) % width === 0 && index >= (height * width) - width) {
-        border.push("east")
-        border.push("south")
+        wall.push("east")
+        wall.push("south")
     } else if ((index + 1) % width === 0) {
-        border.push("east")
+        wall.push("east")
     } else if (index >= (height * width) - width) {
-        border.push("south")
+        wall.push("south")
     }
 }
 
-const updateAllBorders = (walls, width, height) => {
+const updateAllWalls = (walls, width, height) => {
     walls.forEach((wall, index) => {
-        addMazeBorder(index, height, width, wall);
+        addMazeWall(index, height, width, wall);
     });
     return walls;
 }
 
+const getWallClasses = (borders) => {
+    let classNames = "";
+    borders.forEach((wall) => {
+        classNames.length > 0 ? classNames += (" " + wall) : classNames += wall;
+    })
+    return classNames;
+}
+
 export {
-    addMazeBorder,
-    updateAllBorders
+    addMazeWall,
+    updateAllWalls,
+    getWallClasses
 };
