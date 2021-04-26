@@ -1,4 +1,14 @@
-import {addNorthMove, addWestMove, addSouthMove, addEastMove, addValidMoves} from '../models/FindExit';
+import
+{
+    addNorthMove,
+    addWestMove,
+    addSouthMove,
+    addEastMove,
+    addValidMoves,
+    generateEmptyMaze,
+    numberPath
+} 
+from '../models/FindExit';
 
 describe('Find Exit Functions', function () {
     // Set up
@@ -94,6 +104,29 @@ describe('Find Exit Functions', function () {
         addValidMoves(maze, visitedCells, 3, width, validMoves);
         expect(validMoves[0]).toBe(0);
         expect(validMoves[1]).toBe(6);
+    })
+
+    // Generate Maze
+    test('can generate empty maze', () => {
+        const emptyMaze = generateEmptyMaze(3, 3);
+        expect(emptyMaze.length).toBe(9);
+    })
+    
+    // Number path
+    test('can number path of a 3x3 maze with no internal walls', () => {
+        const visitedCells = generateEmptyMaze(3, 3);
+
+        maze = [
+            ["west", "north"], ["north"], ["north", "east"],
+            ["west"], [], ["east"],
+            ["west", "south"],["south"],["south", "east"]
+        ]
+        let endPointPosition = 8;
+        let ponyPosition = 0;
+        const validMoves = [endPointPosition];
+
+        numberPath(endPointPosition, ponyPosition, maze, 3, 3, visitedCells, 0, validMoves);
+        console.log(visitedCells);
     })
     
 })

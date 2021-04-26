@@ -53,11 +53,40 @@ const addValidMoves = (maze, visitedCells, position, mazeWidth, validMoves) => {
     addEastMove(maze, visitedCells, position, validMoves)
 }
 
+const generateEmptyMaze = (mazeWidth, mazeHeight) => {
+    const emptyMaze = new Array(mazeWidth * mazeHeight).fill(null).map(() => []);
+    return emptyMaze;
+}
+
+const numberPath = (startPosition, ponyPosition, maze, mazeWidth, mazeHeight, visitedCells, visitCounter, validMoves) => {    
+    // mark current position as visited
+    visitedCells[startPosition].push(visitCounter)
+    visitCounter++;
+
+    // Base case
+    if (startPosition === ponyPosition) {
+        return;
+    }
+
+    // Add valid moves
+    console.log(validMoves)
+    addValidMoves(maze, visitedCells, startPosition, mazeWidth, validMoves);
+    console.log(validMoves)
+
+    // Recurse
+    while (validMoves.length < 0) {
+        let position = validMoves.shift()
+        numberPath(position, ponyPosition, maze, mazeWidth, mazeHeight, visitedCells, visitCounter, validMoves);
+    }
+}
+
 
 export {
     addNorthMove,
     addWestMove,
     addSouthMove,
     addEastMove,
-    addValidMoves
+    addValidMoves,
+    generateEmptyMaze,
+    numberPath
 }
