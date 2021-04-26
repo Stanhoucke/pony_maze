@@ -35,14 +35,29 @@ const addWestMove = (maze, visitedCells, position, validMoves) => {
         validMoves.push(position - 1);
     } 
 }
+const addSouthMove = (maze, visitedCells, position, mazeWidth, validMoves) => {
+    if (!maze[position].includes("south") && !maze[position + mazeWidth].includes("north") && visitedCells[position + mazeWidth].length === 0) {
+        validMoves.push(position + mazeWidth);
+    } 
+}
+const addEastMove = (maze, visitedCells, position, validMoves) => { 
+    if (!maze[position].includes("east") && !maze[position + 1].includes("north") && visitedCells[position + 1].length === 0) {
+        validMoves.push(position + 1);
+    } 
+}
+
 const addValidMoves = (maze, visitedCells, position, mazeWidth, validMoves) => {
     addNorthMove(maze, visitedCells, position, mazeWidth, validMoves) 
-    addWestMove(maze, visitedCells, position, mazeWidth, validMoves)  
+    addWestMove(maze, visitedCells, position, validMoves)
+    addSouthMove(maze, visitedCells, position, mazeWidth, validMoves) 
+    addEastMove(maze, visitedCells, position, validMoves)
 }
 
 
 export {
     addNorthMove,
     addWestMove,
+    addSouthMove,
+    addEastMove,
     addValidMoves
 }
