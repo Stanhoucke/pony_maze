@@ -69,7 +69,6 @@ const numberPath = (startPosition, ponyPosition, maze, mazeWidth, mazeHeight, vi
         } else {
             visitedCells[startPosition].push(visitCounter)
         }
-        console.log(visitedCells);
         return;
     }
 

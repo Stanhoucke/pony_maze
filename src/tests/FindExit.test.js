@@ -121,12 +121,62 @@ describe('Find Exit Functions', function () {
             ["west"], [], ["east"],
             ["west", "south"],["south"],["south", "east"]
         ]
-        let endPointPosition = 6;
+        let endPointPosition = 8;
+        let ponyPosition = 0;
+        const validMoves = [endPointPosition];
+
+        numberPath(endPointPosition, ponyPosition, maze, 3, 3, visitedCells, 0, validMoves);
+        expect(visitedCells[0][0]).toBe(4)
+        expect(visitedCells[8][0]).toBe(0)
+    })
+    test('can number path of a 3x3 maze with no internal walls from centre', () => {
+        const visitedCells = generateEmptyMaze(3, 3);
+
+        maze = [
+            ["west", "north"], ["north"], ["north", "east"],
+            ["west"], [], ["east"],
+            ["west", "south"],["south"],["south", "east"]
+        ]
+        let endPointPosition = 4;
         let ponyPosition = 2;
         const validMoves = [endPointPosition];
 
         numberPath(endPointPosition, ponyPosition, maze, 3, 3, visitedCells, 0, validMoves);
-        console.log(visitedCells);
+        expect(visitedCells[2][0]).toBe(2)
+        expect(visitedCells[4][0]).toBe(0)
     })
+    test('can number path of a 3x3 maze with walls', () => {
+        const visitedCells = generateEmptyMaze(3, 3);
+
+        maze = [
+            ["west", "north"], ["north"], ["north", "east"],
+            ["west"], [], ["east"],
+            ["west", "south"],["north", "south"],["west", "south", "east"]
+        ]
+        let endPointPosition = 3;
+        let ponyPosition = 7;
+        const validMoves = [endPointPosition];
+
+        numberPath(endPointPosition, ponyPosition, maze, 3, 3, visitedCells, 0, validMoves);
+        expect(visitedCells[7][0]).toBe(2)
+        expect(visitedCells[3][0]).toBe(0)
+    })
+    test('can number path of a 3x3 maze forcing long route', () => {
+        const visitedCells = generateEmptyMaze(3, 3);
+
+        maze = [
+            ["west", "north"], ["west", "north"], ["north", "east"],
+            ["west"], ["west"], ["west", "east"],
+            ["west", "south"],["south"],["west", "south", "east"]
+        ]
+        let endPointPosition = 0;
+        let ponyPosition = 8;
+        const validMoves = [endPointPosition];
+
+        numberPath(endPointPosition, ponyPosition, maze, 3, 3, visitedCells, 0, validMoves);
+        expect(visitedCells[8][0]).toBe(8)
+        expect(visitedCells[0][0]).toBe(0)
+    })
+    
     
 })
