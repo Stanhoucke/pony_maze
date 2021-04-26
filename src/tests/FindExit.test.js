@@ -6,7 +6,8 @@ import
     addEastMove,
     addValidMoves,
     generateEmptyMaze,
-    numberPath
+    numberPath,
+    shortestPath
 } 
 from '../models/FindExit';
 
@@ -178,5 +179,28 @@ describe('Find Exit Functions', function () {
         expect(visitedCells[0][0]).toBe(0)
     })
     
+    // Shortest path
+    test('shortestPath returns indeces array length 5', () => {
+        const visitedCells = [
+            [ 4 ], [ 3 ], [ 2 ],
+            [ 5 ], [ 4 ], [ 1 ],
+            [ 6 ], [ 7 ], [ 0 ]
+          ]
+          const pathIndeces = shortestPath(0, visitedCells, 3, 3);
+          expect(pathIndeces[0]).toBe(0);
+          expect(pathIndeces[4]).toBe(8);
+          expect(pathIndeces.length).toBe(5);
+        })
+        test('shortestPath returns indeces array length 9', () => {
+            const visitedCells = [
+                [ 0 ], [ 5 ],[ 6 ],
+                [ 1 ],[ 4 ], [ 7 ],
+                [ 2 ], [ 3 ], [ 8 ]
+            ]
+            const pathIndeces = shortestPath(8, visitedCells, 3, 3);
+            expect(pathIndeces[8]).toBe(0);
+            expect(pathIndeces[0]).toBe(8);
+            expect(pathIndeces.length).toBe(9);
+    })
     
 })

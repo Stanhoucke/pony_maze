@@ -61,7 +61,6 @@ const generateEmptyMaze = (mazeWidth, mazeHeight) => {
 }
 
 const numberPath = (startPosition, ponyPosition, maze, mazeWidth, mazeHeight, visitedCells, visitCounter, validMoves) => {    
-    debugger;
     // Base case
     if (startPosition === ponyPosition) {
         if (visitedCells[startPosition].length > 0 && visitCounter < visitedCells[startPosition]) {
@@ -88,6 +87,29 @@ const numberPath = (startPosition, ponyPosition, maze, mazeWidth, mazeHeight, vi
     }
 }
 
+const shortestPath = (ponyPosition, visitedCells, mazeWidth, mazeHeight) => {
+    debugger;
+    const pathIndeces = [ponyPosition];
+    let moveNumber = visitedCells[ponyPosition][0];
+    let position = ponyPosition;
+
+    while (moveNumber != 0) {
+        // Check all directions for moveNumber -1
+        if (position - mazeWidth >= 0 && visitedCells[position - mazeWidth][0] === moveNumber - 1) {
+            position -= mazeWidth;
+        } else if (position - 1 >= 0 && visitedCells[position - 1][0] === moveNumber - 1) {
+            position -= 1;
+        } else if (position + mazeWidth <= mazeWidth * mazeHeight && visitedCells[position + mazeWidth][0] === moveNumber - 1) {
+            position += mazeWidth;
+        } else if (position + 1 <= mazeWidth * mazeHeight && visitedCells[position + 1][0] === moveNumber - 1) {
+            position += 1;
+        }
+        pathIndeces.push(position);
+        moveNumber--;
+    }
+    return pathIndeces;
+}
+
 
 export {
     addNorthMove,
@@ -96,5 +118,6 @@ export {
     addEastMove,
     addValidMoves,
     generateEmptyMaze,
-    numberPath
+    numberPath,
+    shortestPath
 }
