@@ -41,16 +41,18 @@ const addSouthMove = (maze, visitedCells, position, mazeWidth, validMoves) => {
     } 
 }
 const addEastMove = (maze, visitedCells, position, validMoves) => { 
-    if (!maze[position].includes("east") && !maze[position + 1].includes("north") && visitedCells[position + 1].length === 0) {
+    if (!maze[position].includes("east") && !maze[position + 1].includes("west") && visitedCells[position + 1].length === 0) {
         validMoves.push(position + 1);
     } 
 }
 
 const addValidMoves = (maze, visitedCells, position, mazeWidth, validMoves) => {
+    validMoves = [];
     addNorthMove(maze, visitedCells, position, mazeWidth, validMoves) 
     addWestMove(maze, visitedCells, position, validMoves)
     addSouthMove(maze, visitedCells, position, mazeWidth, validMoves) 
     addEastMove(maze, visitedCells, position, validMoves)
+    return validMoves;
 }
 
 const generateEmptyMaze = (mazeWidth, mazeHeight) => {
@@ -59,22 +61,29 @@ const generateEmptyMaze = (mazeWidth, mazeHeight) => {
 }
 
 const numberPath = (startPosition, ponyPosition, maze, mazeWidth, mazeHeight, visitedCells, visitCounter, validMoves) => {    
-    // mark current position as visited
-    visitedCells[startPosition].push(visitCounter)
-    visitCounter++;
-
+    debugger;
     // Base case
     if (startPosition === ponyPosition) {
+        if (visitedCells[startPosition].length > 0 && visitCounter < visitedCells[startPosition]) {
+            visitedCells[startPosition] = [visitCounter]
+        } else {
+            visitedCells[startPosition].push(visitCounter)
+        }
+        console.log(visitedCells);
         return;
     }
 
-    // Add valid moves
-    console.log(validMoves)
-    addValidMoves(maze, visitedCells, startPosition, mazeWidth, validMoves);
-    console.log(validMoves)
+    // mark current position as visited
+    if (visitedCells[startPosition].length === 0) {
+        visitedCells[startPosition].push(visitCounter)
+        visitCounter++;
+    }
 
+    // Add valid moves
+    validMoves = addValidMoves(maze, visitedCells, startPosition, mazeWidth, validMoves);
+    
     // Recurse
-    while (validMoves.length < 0) {
+    while (validMoves.length > 0) {
         let position = validMoves.shift()
         numberPath(position, ponyPosition, maze, mazeWidth, mazeHeight, visitedCells, visitCounter, validMoves);
     }

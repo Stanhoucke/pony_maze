@@ -94,16 +94,16 @@ describe('Find Exit Functions', function () {
     })
     // All possible moves
     test('can move in 4 directions', () => {
-        addValidMoves(maze, visitedCells, 4, width, validMoves);
-        expect(validMoves[0]).toBe(1);
-        expect(validMoves[1]).toBe(3);
-        expect(validMoves[2]).toBe(7);
-        expect(validMoves[3]).toBe(5);
+        const nextMoves = addValidMoves(maze, visitedCells, 4, width, validMoves);
+        expect(nextMoves[0]).toBe(1);
+        expect(nextMoves[1]).toBe(3);
+        expect(nextMoves[2]).toBe(7);
+        expect(nextMoves[3]).toBe(5);
     })
     test('can move in 2 directions', () => {
-        addValidMoves(maze, visitedCells, 3, width, validMoves);
-        expect(validMoves[0]).toBe(0);
-        expect(validMoves[1]).toBe(6);
+        const nextMoves = addValidMoves(maze, visitedCells, 3, width, validMoves);
+        expect(nextMoves[0]).toBe(0);
+        expect(nextMoves[1]).toBe(6);
     })
 
     // Generate Maze
@@ -121,8 +121,8 @@ describe('Find Exit Functions', function () {
             ["west"], [], ["east"],
             ["west", "south"],["south"],["south", "east"]
         ]
-        let endPointPosition = 8;
-        let ponyPosition = 0;
+        let endPointPosition = 6;
+        let ponyPosition = 2;
         const validMoves = [endPointPosition];
 
         numberPath(endPointPosition, ponyPosition, maze, 3, 3, visitedCells, 0, validMoves);
