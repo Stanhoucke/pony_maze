@@ -188,7 +188,13 @@ describe('Find Exit Functions', function () {
             [ 5 ], [ 4 ], [ 1 ],
             [ 6 ], [ 7 ], [ 0 ]
           ]
-          const pathIndeces = shortestPath(0, visitedCells, width, height);
+
+          maze = [
+            ["west", "north"], ["north"], ["north", "east"],
+            ["west"], [], ["east"],
+            ["west", "south"],["south"],["south", "east"]
+        ]
+          const pathIndeces = shortestPath(0, visitedCells, width, height, maze);
           expect(pathIndeces[0]).toBe(0);
           expect(pathIndeces[4]).toBe(8);
           expect(pathIndeces.length).toBe(5);
@@ -199,7 +205,12 @@ describe('Find Exit Functions', function () {
                 [ 1 ],[ 4 ], [ 7 ],
                 [ 2 ], [ 3 ], [ 8 ]
             ]
-            const pathIndeces = shortestPath(8, visitedCells, width, height);
+            maze = [
+                ["west", "north"], ["west", "north"], ["north", "east"],
+                ["west"], ["west"], ["west", "east"],
+                ["west", "south"],["south"],["west", "south", "east"]
+            ]
+            const pathIndeces = shortestPath(8, visitedCells, width, height, maze);
             expect(pathIndeces[8]).toBe(0);
             expect(pathIndeces[0]).toBe(8);
             expect(pathIndeces.length).toBe(9);

@@ -25,8 +25,37 @@
 // Add valid moves to queue
 // Repeat marking space as x + 1
 
+const checkNorthMove = (maze, mazeWidth, position) => {
+    if (!maze[position].includes("north") && position - mazeWidth >= 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+const checkWestMove = (maze, position) => {
+    if (!maze[position].includes("west") && position - 1 >= 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+const checkSouthMove = (maze, mazeWidth, mazeHeight, position) => {
+    if (!maze[position].includes("south") && !maze[position + mazeWidth].includes("north") && position + mazeWidth <= mazeWidth * mazeHeight) {
+        return true;
+    } else {
+        return false;
+    }
+}
+const checkEastMove = (maze, mazeWidth, mazeHeight, position) => {
+    if (!maze[position].includes("east") && !maze[position + 1].includes("west") && position + 1 <= mazeWidth * mazeHeight) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 const addNorthMove = (maze, visitedCells, position, mazeWidth, validMoves) => {
-    if (!maze[position].includes("north") && visitedCells[position - mazeWidth].length === 0) {
+    if (checkNorthMove(maze, mazeWidth, position) && visitedCells[position - mazeWidth].length === 0) {
         validMoves.push(position - mazeWidth);
     } 
 }
@@ -87,14 +116,14 @@ const numberPath = (startPosition, ponyPosition, maze, mazeWidth, visitedCells, 
     }
 }
 
-const shortestPath = (ponyPosition, visitedCells, mazeWidth, mazeHeight) => {
+const shortestPath = (ponyPosition, visitedCells, mazeWidth, mazeHeight, maze) => {
     const pathIndeces = [ponyPosition];
     let moveNumber = visitedCells[ponyPosition][0];
     let position = ponyPosition;
 
     while (moveNumber !== 0) {
         // Check all directions for next move (moveNumber - 1)
-        if (position - mazeWidth >= 0 && visitedCells[position - mazeWidth][0] === moveNumber - 1) {
+        if (checkNorthMove(maze, mazeWidth, position) && visitedCells[position - mazeWidth][0] === moveNumber - 1) {
             position -= mazeWidth;
         } else if (position - 1 >= 0 && visitedCells[position - 1][0] === moveNumber - 1) {
             position -= 1;
@@ -116,7 +145,7 @@ const getEndPath = (endPointPosition, ponyPosition, maze, mazeWidth, mazeHeight)
     let visitCounter = 0;
     numberPath(endPointPosition, ponyPosition, maze, mazeWidth, visitedCells, visitCounter, validMoves);
 
-    const endPath = shortestPath(ponyPosition, visitedCells, mazeWidth, mazeHeight);
+    const endPath = shortestPath(ponyPosition, visitedCells, mazeWidth, mazeHeight, maze);
     return endPath;
 }
 
