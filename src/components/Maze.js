@@ -6,12 +6,13 @@ import {getEndPath} from '../models/FindExit';
 const MazeWalls = styled.div`
 width: 33%;
 display: grid;
-grid-template-columns: repeat(${({ height }) => height}, 1fr);
-grid-template-rows: repeat(${({ width }) => width}, 1fr);
+grid-template-columns: repeat(${({ width }) => width}, 1fr);
+grid-template-rows: repeat(${({ height }) => height}, 1fr);
 
 div {
     height: 3em;
     text-align: center;
+    box-sizing: border-box;
 }
 
 .north {
@@ -94,7 +95,7 @@ const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls
 
                 <button onClick={() => setEndPath(getEndPath(endPointPosition, ponyPosition, walls, mazeState.size[0], mazeState.size[1]))}>Show Path to Exit</button>
 
-                <MazeWalls
+                <MazeWalls id="maze-walls"
                 width={mazeState.size[0]}
                 height={mazeState.size[1]}
                 >

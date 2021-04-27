@@ -187,9 +187,9 @@ describe('Find Exit Functions', function () {
             [ 4 ], [ 3 ], [ 2 ],
             [ 5 ], [ 4 ], [ 1 ],
             [ 6 ], [ 7 ], [ 0 ]
-          ]
+        ]
 
-          maze = [
+        maze = [
             ["west", "north"], ["north"], ["north", "east"],
             ["west"], [], ["east"],
             ["west", "south"],["south"],["south", "east"]
