@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {getWallClasses} from '../models/MazeFunctions';
 import {getEndPath} from '../models/FindExit';
@@ -35,6 +35,25 @@ div {
 const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls, movePony, loaded}) => {
     const [endPath, setEndPath] = useState(null);
     
+    useEffect(() => {
+        window.addEventListener("keydown", handleArrowKeyPress);
+        return () => {
+          window.removeEventListener("keydown", handleArrowKeyPress);
+        };
+    }, []);
+
+    const handleArrowKeyPress = (event) => {
+        if (event.key === "ArrowUp") {
+            movePony("north");
+        } else if (event.key === "ArrowLeft") {
+            movePony("west");
+        } else if (event.key === "ArrowDown") {
+            movePony("south");
+        } else if (event.key === "ArrowRight") {
+            movePony("east");
+        }
+    }    
+
     const colorExitPath = (index) => {
         if (endPath.includes(index)) {
             return " path"
@@ -90,10 +109,10 @@ const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls
                     <li>Pony: {ponyPosition}</li>
                     <li>Domokun: {domokunPosition}</li>
                     <li>Exit: {endPointPosition}</li>
-                    {/* <li>Size: {mazeState.size[0]} x {mazeState.size[1]}</li> */}
                 </ul>
 
                 <button onClick={() => setEndPath(getEndPath(endPointPosition, ponyPosition, walls, mazeState.size[0], mazeState.size[1]))}>Show Path to Exit</button>
+                {endPath ? <p>{endPath.length - 1} moves to the rainbow!</p> : <></>}
 
                 <MazeWalls id="maze-walls"
                 width={mazeState.size[0]}
