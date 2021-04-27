@@ -63,48 +63,48 @@ describe('Find Exit Functions', function () {
     })
     // South
     test('can move south', () => {
-        addSouthMove(maze, visitedCells, 4, width, validMoves);
+        addSouthMove(maze, visitedCells, 4, width, height, validMoves);
         expect(validMoves[0]).toBe(7);
     })
     test('wall blocks move south', () => {
-        addSouthMove(maze, visitedCells, 8, width, validMoves);
+        addSouthMove(maze, visitedCells, 8, width, height, validMoves);
         expect(validMoves.length).toBe(0);
     })
     test('visited cell blocks move south', () => {
-        addSouthMove(maze, visitedCells, 1, width, validMoves);
+        addSouthMove(maze, visitedCells, 1, width, height, validMoves);
         expect(validMoves.length).toBe(0);
     })
     test('adjacent cell wall blocks move south', () => {
-        addSouthMove(maze, visitedCells, 5, width, validMoves);
+        addSouthMove(maze, visitedCells, 5, width, height, validMoves);
         expect(validMoves.length).toBe(0);
     })
     // East
     test('can move east', () => {
-        addEastMove(maze, visitedCells, 4, validMoves);
+        addEastMove(maze, visitedCells, 4, width, height, validMoves);
         expect(validMoves[0]).toBe(5);
     })
     test('wall blocks move east', () => {
-        addEastMove(maze, visitedCells, 8, validMoves);
+        addEastMove(maze, visitedCells, 8, width, height, validMoves);
         expect(validMoves.length).toBe(0);
     })
     test('visited cell blocks move east', () => {
-        addEastMove(maze, visitedCells, 3, validMoves);
+        addEastMove(maze, visitedCells, 3, width, height, validMoves);
         expect(validMoves.length).toBe(0);
     })
     test('adjacent cell wall blocks move east', () => {
-        addEastMove(maze, visitedCells, 2, validMoves);
+        addEastMove(maze, visitedCells, 2, width, height, validMoves);
         expect(validMoves.length).toBe(0);
     })
     // All possible moves
     test('can move in 4 directions', () => {
-        const nextMoves = addValidMoves(maze, visitedCells, 4, width, validMoves);
+        const nextMoves = addValidMoves(maze, visitedCells, 4, width, height, validMoves);
         expect(nextMoves[0]).toBe(1);
         expect(nextMoves[1]).toBe(3);
         expect(nextMoves[2]).toBe(7);
         expect(nextMoves[3]).toBe(5);
     })
     test('can move in 2 directions', () => {
-        const nextMoves = addValidMoves(maze, visitedCells, 3, width, validMoves);
+        const nextMoves = addValidMoves(maze, visitedCells, 3, width, height, validMoves);
         expect(nextMoves[0]).toBe(0);
         expect(nextMoves[1]).toBe(6);
     })
@@ -128,7 +128,7 @@ describe('Find Exit Functions', function () {
         let ponyPosition = 0;
         const validMoves = [endPointPosition];
 
-        numberPath(endPointPosition, ponyPosition, maze, width, visitedCells, 0, validMoves);
+        numberPath(endPointPosition, ponyPosition, maze, width, height, visitedCells, 0, validMoves);
         expect(visitedCells[0][0]).toBe(4)
         expect(visitedCells[8][0]).toBe(0)
     })
@@ -144,7 +144,7 @@ describe('Find Exit Functions', function () {
         let ponyPosition = 2;
         const validMoves = [endPointPosition];
 
-        numberPath(endPointPosition, ponyPosition, maze, width, visitedCells, 0, validMoves);
+        numberPath(endPointPosition, ponyPosition, maze, width, height, visitedCells, 0, validMoves);
         expect(visitedCells[2][0]).toBe(2)
         expect(visitedCells[4][0]).toBe(0)
     })
@@ -160,7 +160,7 @@ describe('Find Exit Functions', function () {
         let ponyPosition = 7;
         const validMoves = [endPointPosition];
 
-        numberPath(endPointPosition, ponyPosition, maze, width, visitedCells, 0, validMoves);
+        numberPath(endPointPosition, ponyPosition, maze, width, height, visitedCells, 0, validMoves);
         expect(visitedCells[7][0]).toBe(2)
         expect(visitedCells[3][0]).toBe(0)
     })
@@ -176,7 +176,7 @@ describe('Find Exit Functions', function () {
         let ponyPosition = 8;
         const validMoves = [endPointPosition];
 
-        numberPath(endPointPosition, ponyPosition, maze, width, visitedCells, 0, validMoves);
+        numberPath(endPointPosition, ponyPosition, maze, width, height, visitedCells, 0, validMoves);
         expect(visitedCells[8][0]).toBe(8)
         expect(visitedCells[0][0]).toBe(0)
     })
