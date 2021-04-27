@@ -92,7 +92,7 @@ const shortestPath = (ponyPosition, visitedCells, mazeWidth, mazeHeight) => {
     let moveNumber = visitedCells[ponyPosition][0];
     let position = ponyPosition;
 
-    while (moveNumber != 0) {
+    while (moveNumber !== 0) {
         // Check all directions for next move (moveNumber - 1)
         if (position - mazeWidth >= 0 && visitedCells[position - mazeWidth][0] === moveNumber - 1) {
             position -= mazeWidth;
@@ -119,7 +119,6 @@ const getEndPath = (endPointPosition, ponyPosition, maze, mazeWidth, mazeHeight)
     const endPath = shortestPath(ponyPosition, visitedCells, mazeWidth, mazeHeight);
     return endPath;
 }
-
 
 export {
     addNorthMove,

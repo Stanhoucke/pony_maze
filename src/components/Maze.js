@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import {getWallClasses} from '../models/MazeFunctions';
+import {getEndPath} from '../models/FindExit';
 
 const MazeWalls = styled.div`
 width: 33%;
@@ -25,9 +26,30 @@ div {
 .east {
     border-right: dashed;
 }
+.path {
+    background-color: cyan;
+}
 `;
 
 const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls, movePony, loaded}) => {
+    const [endPath, setEndPath] = useState(null);
+    
+    const colorExitPath = (index) => {
+        if (endPath.includes(index)) {
+            return " path"
+        } else {
+            return ""
+        }
+    }
+
+    const getCellClassNames = (borders, index) => {
+        if (!endPath){
+            return getWallClasses(borders)
+        } else {
+            return getWallClasses(borders) + colorExitPath(index)
+        }
+    }
+    
     if (!loaded) {
         return (
             <h1>Click new game</h1>
@@ -55,7 +77,7 @@ const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls
                 )
             } else {
                 return (
-                    <div key={index} className={getWallClasses(borders)}></div>
+                    <div key={index} className={getCellClassNames(borders, index)}></div>
                 )
             }
         });
@@ -69,6 +91,8 @@ const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls
                     <li>Exit: {endPointPosition}</li>
                     {/* <li>Size: {mazeState.size[0]} x {mazeState.size[1]}</li> */}
                 </ul>
+
+                <button onClick={() => setEndPath(getEndPath(endPointPosition, ponyPosition, walls, mazeState.size[0], mazeState.size[1]))}>Show Path to Exit</button>
 
                 <MazeWalls
                 width={mazeState.size[0]}
