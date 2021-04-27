@@ -60,7 +60,7 @@ const generateEmptyMaze = (mazeWidth, mazeHeight) => {
     return emptyMaze;
 }
 
-const numberPath = (startPosition, ponyPosition, maze, mazeWidth, mazeHeight, visitedCells, visitCounter, validMoves) => {    
+const numberPath = (startPosition, ponyPosition, maze, mazeWidth, visitedCells, visitCounter, validMoves) => {    
     // Base case
     if (startPosition === ponyPosition) {
         if (visitedCells[startPosition].length > 0 && visitCounter < visitedCells[startPosition]) {
@@ -83,18 +83,17 @@ const numberPath = (startPosition, ponyPosition, maze, mazeWidth, mazeHeight, vi
     // Recurse
     while (validMoves.length > 0) {
         let position = validMoves.shift()
-        numberPath(position, ponyPosition, maze, mazeWidth, mazeHeight, visitedCells, visitCounter, validMoves);
+        numberPath(position, ponyPosition, maze, mazeWidth, visitedCells, visitCounter, validMoves);
     }
 }
 
 const shortestPath = (ponyPosition, visitedCells, mazeWidth, mazeHeight) => {
-    debugger;
     const pathIndeces = [ponyPosition];
     let moveNumber = visitedCells[ponyPosition][0];
     let position = ponyPosition;
 
     while (moveNumber != 0) {
-        // Check all directions for moveNumber -1
+        // Check all directions for next move (moveNumber - 1)
         if (position - mazeWidth >= 0 && visitedCells[position - mazeWidth][0] === moveNumber - 1) {
             position -= mazeWidth;
         } else if (position - 1 >= 0 && visitedCells[position - 1][0] === moveNumber - 1) {
@@ -110,6 +109,17 @@ const shortestPath = (ponyPosition, visitedCells, mazeWidth, mazeHeight) => {
     return pathIndeces;
 }
 
+const getEndPath = (endPointPosition, ponyPosition, maze, mazeWidth, mazeHeight) => {
+
+    const visitedCells = generateEmptyMaze(mazeWidth, mazeHeight);
+    const validMoves = [endPointPosition];
+    let visitCounter = 0;
+    numberPath(endPointPosition, ponyPosition, maze, mazeWidth, visitedCells, visitCounter, validMoves);
+
+    const endPath = shortestPath(ponyPosition, visitedCells, mazeWidth, mazeHeight);
+    return endPath;
+}
+
 
 export {
     addNorthMove,
@@ -119,5 +129,6 @@ export {
     addValidMoves,
     generateEmptyMaze,
     numberPath,
-    shortestPath
+    shortestPath,
+    getEndPath
 }

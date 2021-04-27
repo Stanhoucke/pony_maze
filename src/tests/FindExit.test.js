@@ -7,7 +7,8 @@ import
     addValidMoves,
     generateEmptyMaze,
     numberPath,
-    shortestPath
+    shortestPath,
+    getEndPath
 } 
 from '../models/FindExit';
 
@@ -15,6 +16,7 @@ describe('Find Exit Functions', function () {
     // Set up
     let maze;
     let width = 3;
+    let height = 3;
     let visitedCells;
     let validMoves;
 
@@ -126,7 +128,7 @@ describe('Find Exit Functions', function () {
         let ponyPosition = 0;
         const validMoves = [endPointPosition];
 
-        numberPath(endPointPosition, ponyPosition, maze, 3, 3, visitedCells, 0, validMoves);
+        numberPath(endPointPosition, ponyPosition, maze, width, visitedCells, 0, validMoves);
         expect(visitedCells[0][0]).toBe(4)
         expect(visitedCells[8][0]).toBe(0)
     })
@@ -142,7 +144,7 @@ describe('Find Exit Functions', function () {
         let ponyPosition = 2;
         const validMoves = [endPointPosition];
 
-        numberPath(endPointPosition, ponyPosition, maze, 3, 3, visitedCells, 0, validMoves);
+        numberPath(endPointPosition, ponyPosition, maze, width, visitedCells, 0, validMoves);
         expect(visitedCells[2][0]).toBe(2)
         expect(visitedCells[4][0]).toBe(0)
     })
@@ -158,7 +160,7 @@ describe('Find Exit Functions', function () {
         let ponyPosition = 7;
         const validMoves = [endPointPosition];
 
-        numberPath(endPointPosition, ponyPosition, maze, 3, 3, visitedCells, 0, validMoves);
+        numberPath(endPointPosition, ponyPosition, maze, width, visitedCells, 0, validMoves);
         expect(visitedCells[7][0]).toBe(2)
         expect(visitedCells[3][0]).toBe(0)
     })
@@ -174,7 +176,7 @@ describe('Find Exit Functions', function () {
         let ponyPosition = 8;
         const validMoves = [endPointPosition];
 
-        numberPath(endPointPosition, ponyPosition, maze, 3, 3, visitedCells, 0, validMoves);
+        numberPath(endPointPosition, ponyPosition, maze, width, visitedCells, 0, validMoves);
         expect(visitedCells[8][0]).toBe(8)
         expect(visitedCells[0][0]).toBe(0)
     })
@@ -186,7 +188,7 @@ describe('Find Exit Functions', function () {
             [ 5 ], [ 4 ], [ 1 ],
             [ 6 ], [ 7 ], [ 0 ]
           ]
-          const pathIndeces = shortestPath(0, visitedCells, 3, 3);
+          const pathIndeces = shortestPath(0, visitedCells, width, height);
           expect(pathIndeces[0]).toBe(0);
           expect(pathIndeces[4]).toBe(8);
           expect(pathIndeces.length).toBe(5);
@@ -197,10 +199,18 @@ describe('Find Exit Functions', function () {
                 [ 1 ],[ 4 ], [ 7 ],
                 [ 2 ], [ 3 ], [ 8 ]
             ]
-            const pathIndeces = shortestPath(8, visitedCells, 3, 3);
+            const pathIndeces = shortestPath(8, visitedCells, width, height);
             expect(pathIndeces[8]).toBe(0);
             expect(pathIndeces[0]).toBe(8);
             expect(pathIndeces.length).toBe(9);
+    })
+
+    // End Path
+    test('can get exit path', () => {
+        const endPath = getEndPath(8, 0, maze, width, height)
+        expect(endPath[0]).toBe(0);
+        expect(endPath[4]).toBe(8);
+        expect(endPath.length).toBe(5);
     })
     
 })
