@@ -83,8 +83,6 @@ const GameContainer = () => {
     }}
     return (
         <>
-            <h3>GameContainer</h3>
-            Maze ID: {mazeId}
             {content}
         </>
     )

@@ -4,15 +4,19 @@ import {getWallClasses} from '../models/MazeFunctions';
 import {getEndPath} from '../models/FindExit';
 
 const MazeWalls = styled.div`
+height: 50vh;
 width: 33%;
 display: grid;
 grid-template-columns: repeat(${({ width }) => width}, 1fr);
 grid-template-rows: repeat(${({ height }) => height}, 1fr);
 
 div {
-    height: 3em;
+
     text-align: center;
     box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .north {
@@ -29,6 +33,10 @@ div {
 }
 .path {
     background-color: cyan;
+}
+
+.maze-object {
+    margin: 0;
 }
 `;
 
@@ -80,19 +88,19 @@ const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls
             if (index === ponyPosition) {
                 return (
                     <div key={index} className={getWallClasses(borders)}>
-                        <p>P</p>
+                        <p className="maze-object">P</p>
                     </div>
                 )
             } else if (index === domokunPosition) {
                 return (
                     <div key={index} className={getWallClasses(borders)}>
-                        <p>D</p>
+                        <p className="maze-object">D</p>
                     </div>
                 )
             } else if (index === endPointPosition) {
                 return (
                     <div key={index} className={getWallClasses(borders)}>
-                        <p>E</p>
+                        <p className="maze-object">E</p>
                     </div>
                 )
             } else {
