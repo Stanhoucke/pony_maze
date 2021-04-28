@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: aliceblue;
 }
 
 code {
@@ -16,5 +17,4 @@ code {
   text-align: center;
   margin: 0% 5%;
   font-size: 1.5em;
-
 }

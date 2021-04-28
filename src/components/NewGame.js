@@ -33,7 +33,7 @@ const NewGameStyle = styled.div`
     margin-top: 0.25em;
     margin-bottom: 1em;
 }
-.form-item > button {
+#new-game-button {
     border-color: darkmagenta;
     color: darkmagenta;
     background: none;
@@ -44,6 +44,10 @@ const NewGameStyle = styled.div`
     border-width: thick;
     padding: 0.5em;
     cursor: pointer;
+}
+
+#new-game-button:hover {
+    background-color: cyan;
 }
 
 @media only screen and (max-width: 768px) {
@@ -87,6 +91,7 @@ const NewGame = ({getMazeId}) => {
 
     return (
         <NewGameStyle>
+            <h1>Pony Maze</h1>
             <article id="story">
                 <p>A pony is trapped in a maze guarded by a fierce monster!</p>
                 <p>Mesmerised by a rainbow in the distance, the pony has unknowingly wandered far from Ponyville straight into the Domokun Maze!</p>
@@ -120,7 +125,7 @@ const NewGame = ({getMazeId}) => {
                         <input type="number" id="maze-difficulty" name="maze-difficulty" min="0" max="10" value={difficulty} onChange={handleDifficultyChange}/>
                     </div>
                     <div className="form-item">
-                        <button type="submit" name="new-game-button">New Game</button>
+                        <button id ="new-game-button" type="submit" name="new-game-button">New Game</button>
                     </div>
                 </form>
             </div>

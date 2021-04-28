@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import './IconStyle.css';
 import {getWallClasses} from '../models/MazeFunctions';
 import {getEndPath} from '../models/FindExit';
 
@@ -11,6 +12,7 @@ align-items:center;
 #maze-walls {
     height: 50vh;
     width: 33%;
+    padding: 1em 0;
     display: grid;
     grid-template-columns: repeat(${({ width }) => width}, 1fr);
     grid-template-rows: repeat(${({ height }) => height}, 1fr);
@@ -26,23 +28,114 @@ align-items:center;
 }
 
 .north {
-    border-top: dashed;
+    border-top: solid;
+    border-color: darkgreen;
 }
 .west {
-    border-left: dashed;
+    border-left: solid;
+    border-color: darkgreen;
 }
 .south {
-    border-bottom: dashed;
+    border-bottom: solid;
+    border-color: darkgreen;
 }
 .east {
-    border-right: dashed;
+    border-right: solid;
+    border-color: darkgreen;
 }
 .path {
     background-color: cyan;
+    animation-name: path-color;
+    animation-duration: 40s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes path-color {
+    0% {
+        background-color: cyan;
+    }
+    33% {
+        background-color: yellow;
+    }
+    67% {
+        background-color: magenta;
+    }
+    100% {
+        background-color: cyan;
+    }
 }
 
 .maze-object {
     margin: 0;
+}
+#pony {
+    background-color: magenta;
+}
+#domokun {
+    background-color: red;
+}
+#end-point {
+    background-color: springgreen;
+}
+
+.material-icons{
+    color: darkmagenta;
+    font-size: 300%;
+}
+
+#direction-buttons {
+    display: grid;
+    grid-template-areas: 
+    ". up ."
+    "left . right"
+    ". down .";
+    padding-bottom: 2em;
+}
+#up-button{
+    grid-area: up;
+}
+#left-button{
+    grid-area: left;
+}
+#right-button{
+    grid-area: right;
+}
+#down-button{
+    grid-area: down;
+}
+
+#direction-buttons > button{
+    cursor: pointer;
+    background: none;
+    border-radius: 10px;
+    border-color: darkmagenta;
+    border-style: solid;
+}
+#direction-buttons > button:hover {
+    background-color: cyan;
+}
+
+.path-button {
+    border-color: darkmagenta;
+    color: darkmagenta;
+    background: none;
+    font-size: 0.66em;
+    font-weight: bold;
+    border-radius: 10px;
+    border-style: solid;
+    padding: 0.5em;
+    cursor: pointer;
+}
+.path-button:hover {
+    background-color: cyan;
+}
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    #maze-walls {
+        width: 80%;
+        font-size: 0.33em;
+    }
 }
 `;
 
@@ -87,19 +180,19 @@ const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls
     const mazeCells = walls.map((borders, index) => {
         if (index === ponyPosition) {
             return (
-                <div key={index} className={getWallClasses(borders)}>
+                <div id="pony" key={index} className={getWallClasses(borders)}>
                     <p className="maze-object">P</p>
                 </div>
             )
         } else if (index === domokunPosition) {
             return (
-                <div key={index} className={getWallClasses(borders)}>
+                <div id="domokun" key={index} className={getWallClasses(borders)}>
                     <p className="maze-object">D</p>
                 </div>
             )
         } else if (index === endPointPosition) {
             return (
-                <div key={index} className={getWallClasses(borders)}>
+                <div id="end-point" key={index} className={getWallClasses(borders)}>
                     <p className="maze-object">E</p>
                 </div>
             )
@@ -113,13 +206,13 @@ const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls
     return (
         <MazeWalls width={mazeState.size[0]} height={mazeState.size[1]}>
             <article id="instructions">
-                <p>Guide {ponyName} (P) to the exit (E). Beware of the Domokun! (D)</p>
+                <p>Guide <strong>{ponyName}</strong> (<span id="pony">P</span>)to the exit (<span id="end-point">E</span>). Beware of the Domokun! (<span id="domokun">D</span>)</p>
                 <p>Use the direction buttons or the arrow keys to navigate.</p>
             </article>
 
             <div id="find-path-buttons">
-                <button onClick={() => setEndPath(getEndPath(endPointPosition, ponyPosition, walls, mazeState.size[0], mazeState.size[1]))}>Show Path to Exit</button>
-                {endPath ? <p>{endPath.length - 1} moves to safety!</p> : <></>}
+                <button className="path-button" onClick={() => setEndPath(getEndPath(endPointPosition, ponyPosition, walls, mazeState.size[0], mazeState.size[1]))}>Show Path to Exit</button>
+                {endPath ? <p><strong>{ponyName}</strong> is {endPath.length - 1} moves from safety!</p> : <></>}
             </div>
 
             <div id="maze-walls">
@@ -127,10 +220,10 @@ const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls
             </div>
 
             <div id="direction-buttons">
-                <button onClick={() => movePony("north")}>Up</button>
-                <button onClick={() => movePony("east")}>Right</button>
-                <button onClick={() => movePony("west")}>Left</button>
-                <button onClick={() => movePony("south")}>Down</button>
+                <button id ="up-button" onClick={() => movePony("north")}><span className="material-icons">arrow_upward</span></button>
+                <button id ="right-button" onClick={() => movePony("east")}><span className="material-icons">arrow_forward</span></button>
+                <button id ="left-button" onClick={() => movePony("west")}><span className="material-icons">arrow_back</span></button>
+                <button id ="down-button" onClick={() => movePony("south")}><span className="material-icons">arrow_downward</span></button>
             </div>
         </MazeWalls>
     )
