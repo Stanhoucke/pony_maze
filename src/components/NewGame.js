@@ -56,6 +56,12 @@ const NewGameStyle = styled.div`
         width: 80%;
     }
 }
+@media only screen and (max-width: 1024px) {
+    /* For tablets: */
+    .form-item {
+        width: 50%;
+    }
+}
 `;
 
 const NewGame = ({getMazeId}) => {

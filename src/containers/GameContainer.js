@@ -79,7 +79,11 @@ const GameContainer = () => {
             ponyName = {ponyName}
         />
     } else {
-        content = <EndGame gameState = {gameState} setGameState = {setGameState}/>
+        content = <EndGame
+            gameState = {gameState}
+            setGameState = {setGameState}
+            ponyName = {ponyName}
+        />
     }}
     return (
         <>

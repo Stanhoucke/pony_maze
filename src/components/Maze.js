@@ -16,7 +16,7 @@ align-items:center;
     display: grid;
     grid-template-columns: repeat(${({ width }) => width}, 1fr);
     grid-template-rows: repeat(${({ height }) => height}, 1fr);
-    font-size: 0.66em;
+    font-size: 0.75vw;
 }
 
 #maze-walls > div {
@@ -45,24 +45,6 @@ align-items:center;
 }
 .path {
     background-color: cyan;
-    animation-name: path-color;
-    animation-duration: 40s;
-    animation-iteration-count: infinite;
-}
-
-@keyframes path-color {
-    0% {
-        background-color: cyan;
-    }
-    33% {
-        background-color: yellow;
-    }
-    67% {
-        background-color: magenta;
-    }
-    100% {
-        background-color: cyan;
-    }
 }
 
 .maze-object {
@@ -128,6 +110,10 @@ align-items:center;
 }
 .path-button:hover {
     background-color: cyan;
+}
+
+#number-of-moves {
+    margin-bottom: 0px;
 }
 
 @media only screen and (max-width: 768px) {
@@ -212,7 +198,7 @@ const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls
 
             <div id="find-path-buttons">
                 <button className="path-button" onClick={() => setEndPath(getEndPath(endPointPosition, ponyPosition, walls, mazeState.size[0], mazeState.size[1]))}>Show Path to Exit</button>
-                {endPath ? <p><strong>{ponyName}</strong> is {endPath.length - 1} moves from safety!</p> : <></>}
+                {endPath ? <p id="number-of-moves" ><strong>{ponyName}</strong> is {endPath.length - 1} moves from safety!</p> : <></>}
             </div>
 
             <div id="maze-walls">
