@@ -14,7 +14,7 @@ const GameContainer = () => {
     const [endPointPosition, setEndPointPosition] = useState(null);
     const [walls, setWalls] = useState(null);
     const [gameState, setGameState] = useState({state: "Inactive"});
-    const [loaded, setLoaded] = useState(false);
+    const [ponyName, setPonyName] = useState(false);
 
     const initialRender = useRef(true);
 
@@ -36,6 +36,7 @@ const GameContainer = () => {
         .then(data => {
             setMazeId(data.maze_id)
         })
+        .then(() => setPonyName(gameInfo["maze-player-name"]))
     }
     
     const getMazeState = () => {
@@ -50,7 +51,6 @@ const GameContainer = () => {
             setWalls(updateAllWalls(data.data, data.size[0], data.size[1]))
             setGameState(data["game-state"])
         })
-        .then(() => setLoaded(true))
     }
 
     const movePony = (direction) => {
@@ -76,7 +76,7 @@ const GameContainer = () => {
             endPointPosition = {endPointPosition}
             walls = {walls}
             movePony = {movePony}
-            loaded = {loaded}
+            ponyName = {ponyName}
         />
     } else {
         content = <EndGame gameState = {gameState} setGameState = {setGameState}/>

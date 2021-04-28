@@ -43,6 +43,7 @@ const NewGameStyle = styled.div`
     border-style: solid;
     border-width: thick;
     padding: 0.5em;
+    cursor: pointer;
 }
 
 @media only screen and (max-width: 768px) {

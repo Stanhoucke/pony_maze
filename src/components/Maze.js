@@ -4,14 +4,20 @@ import {getWallClasses} from '../models/MazeFunctions';
 import {getEndPath} from '../models/FindExit';
 
 const MazeWalls = styled.div`
-height: 50vh;
-width: 33%;
-display: grid;
-grid-template-columns: repeat(${({ width }) => width}, 1fr);
-grid-template-rows: repeat(${({ height }) => height}, 1fr);
+display: flex;
+flex-direction: column;
+align-items:center;
 
-div {
+#maze-walls {
+    height: 50vh;
+    width: 33%;
+    display: grid;
+    grid-template-columns: repeat(${({ width }) => width}, 1fr);
+    grid-template-rows: repeat(${({ height }) => height}, 1fr);
+    font-size: 0.66em;
+}
 
+#maze-walls > div {
     text-align: center;
     box-sizing: border-box;
     display: flex;
@@ -40,7 +46,7 @@ div {
 }
 `;
 
-const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls, movePony, loaded}) => {
+const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls, movePony, ponyName}) => {
     const [endPath, setEndPath] = useState(null);
     
     useEffect(() => {
@@ -78,66 +84,56 @@ const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls
         }
     }
     
-    if (!loaded) {
-        return (
-            <h1>Click new game</h1>
-        )
-        
-    } else {
-        const mazeCells = walls.map((borders, index) => {
-            if (index === ponyPosition) {
-                return (
-                    <div key={index} className={getWallClasses(borders)}>
-                        <p className="maze-object">P</p>
-                    </div>
-                )
-            } else if (index === domokunPosition) {
-                return (
-                    <div key={index} className={getWallClasses(borders)}>
-                        <p className="maze-object">D</p>
-                    </div>
-                )
-            } else if (index === endPointPosition) {
-                return (
-                    <div key={index} className={getWallClasses(borders)}>
-                        <p className="maze-object">E</p>
-                    </div>
-                )
-            } else {
-                return (
-                    <div key={index} className={getCellClassNames(borders, index)}></div>
-                )
-            }
-        });
-    
-        return (
-            <>
-                <h3>Maze</h3>
-                <ul>
-                    <li>Pony: {ponyPosition}</li>
-                    <li>Domokun: {domokunPosition}</li>
-                    <li>Exit: {endPointPosition}</li>
-                </ul>
+    const mazeCells = walls.map((borders, index) => {
+        if (index === ponyPosition) {
+            return (
+                <div key={index} className={getWallClasses(borders)}>
+                    <p className="maze-object">P</p>
+                </div>
+            )
+        } else if (index === domokunPosition) {
+            return (
+                <div key={index} className={getWallClasses(borders)}>
+                    <p className="maze-object">D</p>
+                </div>
+            )
+        } else if (index === endPointPosition) {
+            return (
+                <div key={index} className={getWallClasses(borders)}>
+                    <p className="maze-object">E</p>
+                </div>
+            )
+        } else {
+            return (
+                <div key={index} className={getCellClassNames(borders, index)}></div>
+            )
+        }
+    });
 
+    return (
+        <MazeWalls width={mazeState.size[0]} height={mazeState.size[1]}>
+            <article id="instructions">
+                <p>Guide {ponyName} (P) to the exit (E). Beware of the Domokun! (D)</p>
+                <p>Use the direction buttons or the arrow keys to navigate.</p>
+            </article>
+
+            <div id="find-path-buttons">
                 <button onClick={() => setEndPath(getEndPath(endPointPosition, ponyPosition, walls, mazeState.size[0], mazeState.size[1]))}>Show Path to Exit</button>
-                {endPath ? <p>{endPath.length - 1} moves to the rainbow!</p> : <></>}
+                {endPath ? <p>{endPath.length - 1} moves to safety!</p> : <></>}
+            </div>
 
-                <MazeWalls id="maze-walls"
-                width={mazeState.size[0]}
-                height={mazeState.size[1]}
-                >
-                    {mazeCells}
-                </MazeWalls>
+            <div id="maze-walls">
+                {mazeCells}
+            </div>
 
+            <div id="direction-buttons">
                 <button onClick={() => movePony("north")}>Up</button>
                 <button onClick={() => movePony("east")}>Right</button>
                 <button onClick={() => movePony("west")}>Left</button>
                 <button onClick={() => movePony("south")}>Down</button>
-            </>
-        )
-        
-    }
-
+            </div>
+        </MazeWalls>
+    )
 }
 
 export default Maze;
