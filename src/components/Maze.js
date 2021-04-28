@@ -135,6 +135,12 @@ const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls
         };
     }, []);
 
+    // useEffect(() => {
+    //     if (endPath){
+    //         autoFindExit();
+    //     }
+    // }, [mazeState])
+
     const handleArrowKeyPress = (event) => {
         if (event.key === "ArrowUp") {
             movePony("north");
@@ -160,6 +166,40 @@ const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls
             return getWallClasses(borders)
         } else {
             return getWallClasses(borders) + colorExitPath(index)
+        }
+    }
+
+    const handleGetEndPath = () => {
+        setEndPath(getEndPath(endPointPosition, ponyPosition, walls, mazeState.size[0], mazeState.size[1]))
+    }
+
+    const sleep = (delay) => new Promise((resolve) => {
+        setTimeout(resolve, delay)
+    });
+
+    const autoFindExit = async () => {
+        const mazeWidth = mazeState.size[0];
+        for (let i = 0; i < endPath.length; i++) {
+            let nextMoveValue = endPath[i] - endPath[i + 1];
+                if (nextMoveValue === 1){
+                    await movePony("west");
+                    console.log("west");
+                } else if (nextMoveValue === mazeWidth){
+                    await movePony("north");
+                    console.log("north");
+                } else if (nextMoveValue === -1){
+                    await movePony("east");
+                    console.log("east");
+                } else if (nextMoveValue === (mazeWidth * -1)){
+                    await movePony("south");
+                    console.log("south");
+                }
+                await sleep(1000);
+
+                if (domokunPosition === ponyPosition) {
+                    console.log("LOST")
+                    break;
+                }
         }
     }
     
@@ -197,8 +237,15 @@ const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls
             </article>
 
             <div id="find-path-buttons">
-                <button className="path-button" onClick={() => setEndPath(getEndPath(endPointPosition, ponyPosition, walls, mazeState.size[0], mazeState.size[1]))}>Show Path to Exit</button>
-                {endPath ? <p id="number-of-moves" ><strong>{ponyName}</strong> is {endPath.length - 1} moves from safety!</p> : <></>}
+                <button className="path-button" onClick={handleGetEndPath}>Show Path to Exit</button>
+                {endPath ? <>
+                    <p id="number-of-moves">
+                        <strong>{ponyName}</strong> is {endPath.length - 1} moves from safety!
+                    </p> 
+                    <button className="path-button" onClick={autoFindExit}>Auto Find Exit</button>
+                </>
+                :
+                <></>}
             </div>
 
             <div id="maze-walls">
