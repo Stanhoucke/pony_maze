@@ -3,9 +3,19 @@ import styled from 'styled-components';
 
 const NewGameStyle = styled.div`
 #new-game-setup {
-    padding: 1em 0 2em 0;
+    padding: 0.5em 0 2em 0;
 }
 
+#title {
+    animation-name: magenta-text;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+}
+@keyframes magenta-text {
+    0% {color: darkmagenta;}
+    50% {color: magenta;}
+    100% {color: darkmagenta;}
+}
 
 #new-game-form {
     display: flex;
@@ -92,13 +102,13 @@ const NewGame = ({getMazeId}) => {
             "maze-player-name": pony,
             "difficulty": difficulty
         }
-        
+
         getMazeId(newGameInfo);
     }
 
     return (
         <NewGameStyle>
-            <h1>Pony Maze</h1>
+            <h1 id="title">Pony Maze</h1>
             <article id="story">
                 <p>A pony is trapped in a maze guarded by a fierce monster!</p>
                 <p>Mesmerised by a rainbow in the distance, the pony has unknowingly wandered far from Ponyville straight into the Domokun Maze!</p>
