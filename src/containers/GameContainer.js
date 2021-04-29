@@ -7,9 +7,8 @@ import Maze from '../components/Maze';
 import EndGame from '../components/EndGame';
 
 const GameContainer = () => {
-
     const [mazeId, setMazeId] = useState("");
-    const [mazeState, setMazeState] = useState({});
+    const [mazeSize, setmazeSize] = useState({});
     const [ponyPosition, setPonyPosition] = useState(null);
     const [domokunPosition, setDomokunPosition] = useState(null);
     const [endPointPosition, setEndPointPosition] = useState(null);
@@ -22,6 +21,9 @@ const GameContainer = () => {
     const initialRender = useRef(true);
     const initialRenderAutoMove = useRef(true);
 
+    const url = "https://ponychallenge.trustpilot.com/pony-challenge/maze"
+    const request = new Request();
+
     useEffect(() => {
         if (initialRender.current) {
             initialRender.current = false;
@@ -33,9 +35,8 @@ const GameContainer = () => {
         if (startAutoFindExit){
             if (gameState.state.toLowerCase() !== "active") {
                 setStartAutoFindExit(false);
-                console.log("GAME OVER")
             } else {
-                let path = getEndPath(endPointPosition, ponyPosition, walls, mazeState.size[0], mazeState.size[1]);
+                let path = getEndPath(endPointPosition, ponyPosition, walls, mazeSize[0], mazeSize[1]);
                 autoFindExit(path); 
             }
         } 
@@ -48,12 +49,7 @@ const GameContainer = () => {
         }
     }, [startAutoFindExit])
 
-    const url = "https://ponychallenge.trustpilot.com/pony-challenge/maze"
-    const request = new Request();
-
     const getMazeId = (gameInfo) => {
-        console.log("getting maze id...")
-
         request.post(url, gameInfo)
         .then(data => {
             setMazeId(data.maze_id)
@@ -62,11 +58,9 @@ const GameContainer = () => {
     }
     
     const getMazeState = () => {
-        console.log("getting maze state...")
-        
         request.get(url + '/' + mazeId)
         .then(data => {
-            setMazeState(data)
+            setmazeSize(data.size)
             setPonyPosition(data.pony[0])
             setDomokunPosition(data.domokun[0])
             setEndPointPosition(data["end-point"][0])
@@ -80,8 +74,6 @@ const GameContainer = () => {
     }
 
     const movePony = (direction) => {
-        console.log("moving pony...")
-
         const move = {
             "direction": direction
         }
@@ -89,33 +81,24 @@ const GameContainer = () => {
         request.post(url + '/' + mazeId, move)
         .then(data => setGameState(data))
         .then(() => getMazeState())
-        
     }
 
     const handleGetEndPath = () => {
-        setEndPath(getEndPath(endPointPosition, ponyPosition, walls, mazeState.size[0], mazeState.size[1]))
+        setEndPath(getEndPath(endPointPosition, ponyPosition, walls, mazeSize[0], mazeSize[1]))
     }
 
-    const sleep = (delay) => new Promise((resolve) => {
-        setTimeout(resolve, delay)
-    });
-
     const autoFindExit = async (path) => {
-        const mazeWidth = mazeState.size[0];
-            let nextMoveValue = path[0] - path[1];
-                if (nextMoveValue === 1){
-                    await movePony("west");
-                    console.log("west");
-                } else if (nextMoveValue === mazeWidth){
-                    await movePony("north");
-                    console.log("north");
-                } else if (nextMoveValue === -1){
-                    await movePony("east");
-                    console.log("east");
-                } else if (nextMoveValue === (mazeWidth * -1)){
-                    await movePony("south");
-                    console.log("south");
-                }
+        const mazeWidth = mazeSize[0];
+        let nextMoveValue = path[0] - path[1];
+        if (nextMoveValue === 1){
+            await movePony("west");
+        } else if (nextMoveValue === mazeWidth){
+            await movePony("north");
+        } else if (nextMoveValue === -1){
+            await movePony("east");
+        } else if (nextMoveValue === (mazeWidth * -1)){
+            await movePony("south");
+        }
     }
 
     let content;
@@ -123,7 +106,7 @@ const GameContainer = () => {
         content = <NewGame getMazeId = {getMazeId}/>
     } else if (gameState.state.toLowerCase() === "active") {
         content = <Maze
-            mazeState = {mazeState}
+            mazeSize = {mazeSize}
             ponyPosition = {ponyPosition}
             domokunPosition = {domokunPosition}
             endPointPosition = {endPointPosition}

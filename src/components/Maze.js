@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import './IconStyle.css';
 import {getWallClasses} from '../models/MazeFunctions';
-import {getEndPath} from '../models/FindExit';
 
 const MazeWalls = styled.div`
 display: flex;
@@ -97,6 +96,13 @@ align-items:center;
     background-color: cyan;
 }
 
+#find-path-buttons {
+    width: 50vw;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
 .path-button {
     border-color: darkmagenta;
     color: darkmagenta;
@@ -107,6 +113,8 @@ align-items:center;
     border-style: solid;
     padding: 0.5em;
     cursor: pointer;
+    margin: 1em;
+    width: 10em;
 }
 .path-button:hover {
     background-color: cyan;
@@ -122,10 +130,13 @@ align-items:center;
         width: 80%;
         font-size: 0.33em;
     }
+    #find-path-buttons {
+        width: 90vw;
+    }
 }
 `;
 
-const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls, movePony, ponyName, endPath, handleGetEndPath, setStartAutoFindExit}) => {
+const Maze = ({mazeSize, ponyPosition, domokunPosition, endPointPosition, walls, movePony, ponyName, endPath, handleGetEndPath, setStartAutoFindExit}) => {
     
     
     useEffect(() => {
@@ -163,10 +174,6 @@ const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls
         }
     }
 
-
-
-    
-    
     const mazeCells = walls.map((borders, index) => {
         if (index === ponyPosition) {
             return (
@@ -194,7 +201,7 @@ const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls
     });
 
     return (
-        <MazeWalls width={mazeState.size[0]} height={mazeState.size[1]}>
+        <MazeWalls width={mazeSize[0]} height={mazeSize[1]}>
             <article id="instructions">
                 <p>Guide <strong>{ponyName}</strong> (<span id="pony">P</span>)to the exit (<span id="end-point">E</span>). Beware of the Domokun! (<span id="domokun">D</span>)</p>
                 <p>Use the direction buttons or the arrow keys to navigate.</p>
@@ -203,6 +210,7 @@ const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls
             <div id="find-path-buttons">
                 <button className="path-button" onClick={handleGetEndPath}>Show Path to Exit</button>
                 <button className="path-button" onClick={() => setStartAutoFindExit(true)}>Auto Find Exit</button>
+            </div>
                 {endPath ? <>
                     <p id="number-of-moves">
                         <strong>{ponyName}</strong> is {endPath.length - 1} moves from safety!
@@ -210,7 +218,6 @@ const Maze = ({mazeState, ponyPosition, domokunPosition, endPointPosition, walls
                 </>
                 :
                 <></>}
-            </div>
 
             <div id="maze-walls">
                 {mazeCells}

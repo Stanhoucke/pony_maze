@@ -31,7 +31,6 @@ const EndGameContainer = styled.div`
 `;
 
 const EndGame = ({gameState, setGameState, ponyName}) => {
-
     const url = "https://ponychallenge.trustpilot.com"
     const gameResult = (gameState.state.toLowerCase() === "won") ?
             <h3>{ponyName} is free!</h3>

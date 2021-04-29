@@ -92,6 +92,7 @@ const NewGame = ({getMazeId}) => {
             "maze-player-name": pony,
             "difficulty": difficulty
         }
+        
         getMazeId(newGameInfo);
     }
 
