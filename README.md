@@ -1,6 +1,6 @@
 # Pony Maze
 
-This project is my attempt to the [Trustpilot Pony Challenge](https://ponychallenge.trustpilot.com/index.html).  
+This project is my attempt at the [Trustpilot Pony Challenge](https://ponychallenge.trustpilot.com/index.html).  
 
 The aim of the challenge is to help a pony escape a maze guarded by a monster. This React web app allows the user to:
  - Create a new maze by choosing a [My Little Pony character name](https://mylittlepony.hasbro.com/en-gb/characters/ponies), maze dimensions, and difficulty
@@ -20,7 +20,7 @@ npm start
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 ### `npm test`
-Launches the test runner in the interactive watch mode.\
+Launches the test runner in the interactive watch mode.
 
 ## About the Software
 - The app was made using React and tested using the React Testing Library
